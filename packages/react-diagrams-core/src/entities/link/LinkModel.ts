@@ -222,7 +222,6 @@ export class LinkModel<G extends LinkModelGenerics = LinkModelGenerics> extends 
 			this.sourcePort.removeLink(this);
 		}
 		this.sourcePort = port;
-		this.fireEvent({ port }, 'sourcePortChanged');
 	}
 
 	getSourcePort(): PortModel {
