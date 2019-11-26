@@ -115,13 +115,17 @@ export class DiagramModel<G extends DiagramModelGenerics = DiagramModelGenerics>
 
 	addLink(link: LinkModel): LinkModel {
 		this.getActiveLinkLayer().addModel(link);
-		this.fireEvent(
-			{
-				link,
-				isCreated: true
+		this.fireEvent({ link, isCreated: true }, 'linksUpdated');
+
+		link.registerListener({
+			targetPortChanged: event => {
+				this.fireEvent({ ...event, link }, 'linkTargetPortChanged');
 			},
-			'linksUpdated'
-		);
+			newPointCreated: event => {
+				this.fireEvent({ ...event, link }, 'linkNewPointCreated');
+			}
+		});
+
 		return link;
 	}
 
